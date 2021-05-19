@@ -5,6 +5,17 @@ const boardBackground = 'lightgrey'
 const snakeColor = 'lightgreen'
 const snakeBorder = 'darkblue'
 
+const newSnake = {
+  body: [
+    { x: 200, y: 200 },
+    { x: 190, y: 200 },
+    { x: 180, y: 200 },
+    { x: 170, y: 200 },
+    { x: 160, y: 200 }
+  ],
+  get head () { return this.body[0] },
+  get tail () { return this.body[this.body.length - 1]}
+}
 const snakeDefault = [
   { x: 200, y: 200 },
   { x: 190, y: 200 },
@@ -160,8 +171,8 @@ function hasEatenFood () {
 
 function tryToGrow () {
   const tail = {
-    x: [snake.lenth -1].x + dx,
-    y: [snake.lenth -1].y + dy
+    x: snake[snake.length -1].x + dx,
+    y: snake[snake.length -1].y + dy
   }
 
   if (hasEatenFood()) {
