@@ -123,10 +123,8 @@ function genFood () {
   // Generate a random number for the food y-coordinate
   foodY = randomFood(0, snakeBoard.height - 10)
   // if the new food location is where the snake currently is, generate a new food location
-  snake.forEach(function hasSnakeEatenFood (part) {
-    const hasEaten = part.x === foodX && part.y === foodY
-    if (hasEaten) genFood()
-  })
+  const hasOverlappedFood = (part) => part.x === foodX && part.y === foodY
+  if (snake.some(hasOverlappedFood)) genFood()
 }
 
 function moveSnake () {
