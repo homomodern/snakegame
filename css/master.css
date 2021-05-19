@@ -1,19 +1,73 @@
-#snakeboard {
-  /* width: 400px;
-  height: 400px; */
-  border: solid;
+body {
+  background-color: #fafafa;
+}
+
+.grid-wrapper {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: auto;
+  grid-gap: 5px;
+  background-color: #ffffff;
+  padding: 10px;
+  width: 400px;
+  text-align: center;
 }
 
-#score {
-  text-align: center;
-  font-size: 100px;
+.gamefield {
+  grid-column-start: 1;
+  grid-column-end: 4;
 }
 
-#status {
+.score {
   text-align: center;
-  font-size: 50px;
+  font-size: 30px;
+}
+
+.button {
+  /* display: block; */
+  font-family: sans-serif;
+  width: 150px;
+  /* margin: 0 auto; */
+  height: 50px;
+  /* line-height: 45px; */
+  border: 1px solid black;
+  border-radius: 5px;
+  background: #90ee90;
+  color: white;
+  -webkit-text-stroke-width: 0.5px;
+  -webkit-text-stroke-color: black;
+  font-weight: 900;
+  font-size: 30px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.button:hover {
+  background-color: #80dd80;
+}
+.menu {
+  display: grid;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  grid-template-columns: auto;
+  grid-template-rows: auto;
+  padding: 10px;
+
+}
+.button > a {
+  display: block;
+  margin: 5px;
+}
+.offscreen {
+  display: none;
+}
+
+ul {
+  list-style: none;
 }

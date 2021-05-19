@@ -10,12 +10,28 @@
 </head>
 
 <body>
-  <div id="score">0</div>
-  <!-- <div id="status" hidden>
-    <p>Game Over!</p>
-    <button id="restart">Restart</button>
-  </div> -->
-  <canvas id="snakeboard" width="400" height="400"><canvas>
+  <!-- <div class="flex-wrapper"> -->
+  <div class="grid-wrapper">
+    <!-- <div class="menu flex-container">
+      <ul>
+        <li><a class="button play" href="javasript:void(0)">Snake!</a></li>
+        <li><button class="button play">Snake!</button></li>
+      </ul>
+    </div> -->
+    <div class="grid-item">Player: John</div>
+    <div class="grid-item">Score: <span id="score">0</span></div>
+    <div class="grid-item">Best Score: n/a</div>
+    <div class="grid-item gamefield">
+      <canvas id="snakeboard" width="400" height="400"></canvas>
+      <div class="menu">
+        <div class="button start"><a>Start</a></div>
+        <!-- <ul>
+          <li><a class="button start">Snake!</a></li>
+        </ul> -->
+      </div>
+    </div>
 
+  </div>
+  <!-- </div> -->
 </body>
 </html>
