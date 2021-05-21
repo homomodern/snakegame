@@ -5,26 +5,19 @@ const boardBackground = 'lightgrey'
 const snakeColor = 'lightgreen'
 const snakeBorder = 'darkblue'
 
-const newSnake = {
-  body: [
-    { x: 200, y: 200 },
-    { x: 190, y: 200 },
-    { x: 180, y: 200 },
-    { x: 170, y: 200 },
-    { x: 160, y: 200 }
-  ],
-  get head () { return this.body[0] },
-  get tail () { return this.body[this.body.length - 1]}
-}
-const snakeDefault = [
-  { x: 200, y: 200 },
-  { x: 190, y: 200 },
-  { x: 180, y: 200 },
-  { x: 170, y: 200 },
-  { x: 160, y: 200 }
-]
+// const newSnake = {
+//   body: [
+//     { x: 200, y: 200 },
+//     { x: 190, y: 200 },
+//     { x: 180, y: 200 },
+//     { x: 170, y: 200 },
+//     { x: 160, y: 200 }
+//   ],
+//   get head () { return this.body[0] },
+//   get tail () { return this.body[this.body.length - 1]}
+// }
 
-let snake
+let snake = []
 
 let score = 0
 // True if changing direction
@@ -69,7 +62,14 @@ function main () {
 }
 
 function startGame () {
-  snake = Array.from(snakeDefault)
+  const snakeDefault = [
+    { x: 200, y: 200 },
+    { x: 190, y: 200 },
+    { x: 180, y: 200 },
+    { x: 170, y: 200 },
+    { x: 160, y: 200 }
+  ]
+  snake = [...snakeDefault] //Array.from(snakeDefault)
   dx = 10
   dy = 0
   score = 0
@@ -82,16 +82,16 @@ function startGame () {
 }
 
 function hasGameEnded () {
-  // const head = snake[0]
-  // const hitItself = (part, index) => {
-  //   (part.x === head.x && part.y === head.y) && index > 0
-  // }
-  // if ( snake.some(hitItself) ) return true
-  // console.log(snake.some(hitItself))
-
-  for (let i = 4; i < snake.length; i++) {
-    if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) return true
+  const head = snake[0]
+  const hitItself = (part, index) => {
+    if (index === 0) return false
+    return part.x === head.x && part.y === head.y
   }
+  if ( snake.some(hitItself) ) return true
+
+  // for (let i = 4; i < snake.length; i++) {
+  //   if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) return true
+  // }
 
   const hitLeftWall = snake[0].x < 0
   const hitRightWall = snake[0].x > snakeBoard.width - 10
