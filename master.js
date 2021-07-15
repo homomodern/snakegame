@@ -1,35 +1,17 @@
-'use strict'
+import {drawFood, genFood, hasEatenFood} from './food.js'
 
 const boardBorder = 'black'
 const boardBackground = 'lightgrey'
 const snakeColor = 'lightgreen'
 const snakeBorder = 'darkblue'
 
-// const newSnake = {
-//   body: [
-//     { x: 200, y: 200 },
-//     { x: 190, y: 200 },
-//     { x: 180, y: 200 },
-//     { x: 170, y: 200 },
-//     { x: 160, y: 200 }
-//   ],
-//   get head () { return this.body[0] },
-//   get tail () { return this.body[this.body.length - 1]}
-// }
-
-let snake = []
+export let snake = []
 
 let score = 0
 // True if changing direction
 // let changing_direction = false;
-// Horizontal velocity
-let foodX
-let foodY
-
-// Horizontal velocity
-let dx
-// Vertical velocity
-let dy
+let dx // Horizontal velocity
+let dy // Vertical velocity
 
 // Get the canvas element
 const snakeBoard = document.querySelector('#snakeboard')
@@ -52,7 +34,7 @@ function main () {
 
   setTimeout(function onTick () {
     clearCanvas()
-    drawFood()
+    drawFood(snakeBoardCtx)
     moveSnake()
     drawSnake()
     tryToGrow()
@@ -77,7 +59,7 @@ function startGame () {
   const menu = document.querySelector('.menu')
   menu.classList.toggle('offscreen')
 
-  genFood()
+  genFood(snakeBoard, snake)
   main()
 }
 
@@ -113,27 +95,6 @@ function clearCanvas () {
   snakeBoardCtx.strokeRect(0, 0, snakeBoard.width, snakeBoard.height)
 }
 
-function drawFood () {
-  snakeBoardCtx.fillStyle = 'lightgreen'
-  snakeBoardCtx.strokestyle = 'darkgreen'
-  snakeBoardCtx.fillRect(foodX, foodY, 10, 10)
-  snakeBoardCtx.strokeRect(foodX, foodY, 10, 10)
-}
-
-function randomFood (min, max) {
-  return Math.round((Math.random() * (max - min) + min) / 10) * 10
-}
-
-function genFood () {
-  // Generate a random number the food x-coordinate
-  foodX = randomFood(0, snakeBoard.width - 10)
-  // Generate a random number for the food y-coordinate
-  foodY = randomFood(0, snakeBoard.height - 10)
-  // if the new food location is where the snake currently is, generate a new food location
-  const hasOverlappedFood = (part) => part.x === foodX && part.y === foodY
-  if (snake.some(hasOverlappedFood)) genFood()
-}
-
 function moveSnake () {
   // Create the new Snake's head
   const head = { x: snake[0].x + dx, y: snake[0].y + dy }
@@ -142,13 +103,10 @@ function moveSnake () {
   snake.pop()
 }
 
-// Draw the snake on the canvas
 function drawSnake () {
-  // Draw each part
   snake.forEach(drawSnakePart)
 }
 
-// Draw one snake part
 function drawSnakePart (snakePart) {
   // Set the colour of the snake part
   snakeBoardCtx.fillStyle = snakeColor
@@ -161,24 +119,20 @@ function drawSnakePart (snakePart) {
   snakeBoardCtx.strokeRect(snakePart.x, snakePart.y, 10, 10)
 }
 
-function hasEatenFood () {
-  return snake[0].x === foodX && snake[0].y === foodY
-}
-
 function tryToGrow () {
   const tail = {
     x: snake[snake.length -1].x + dx,
     y: snake[snake.length -1].y + dy
   }
 
-  if (hasEatenFood()) {
+  if (hasEatenFood(snake)) {
     snake.push(tail)
     // Increase score
     score += 10
     // Display score on screen
     document.getElementById('score').innerHTML = score
     // Generate new food location
-    genFood()
+    genFood(snakeBoard, snake)
   }
 }
 
