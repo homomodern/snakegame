@@ -69,7 +69,7 @@ function startGame () {
     { x: 170, y: 200 },
     { x: 160, y: 200 }
   ]
-  snake = [...snakeDefault] //Array.from(snakeDefault)
+  snake = [...snakeDefault]
   dx = 10
   dy = 0
   score = 0
@@ -84,14 +84,10 @@ function startGame () {
 function hasGameEnded () {
   const head = snake[0]
   const hitItself = (part, index) => {
-    if (index === 0) return false
+    if (index === 0) return false // Ignore head
     return part.x === head.x && part.y === head.y
   }
   if ( snake.some(hitItself) ) return true
-
-  // for (let i = 4; i < snake.length; i++) {
-  //   if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) return true
-  // }
 
   const hitLeftWall = snake[0].x < 0
   const hitRightWall = snake[0].x > snakeBoard.width - 10
@@ -187,33 +183,28 @@ function tryToGrow () {
 }
 
 function changeDirection (event) {
-  const LEFT_KEY = 37
-  const RIGHT_KEY = 39
-  const UP_KEY = 38
-  const DOWN_KEY = 40
-
   // Prevent the snake from reversing
 
   // if (changing_direction) return
   //  changing_direction = true
-  const keyPressed = event.keyCode
+  const keydown = event.code
   const goingUp = dy === -10
   const goingDown = dy === 10
   const goingRight = dx === 10
   const goingLeft = dx === -10
-  if (keyPressed === LEFT_KEY && !goingRight) {
+  if (keydown === 'ArrowLeft' && !goingRight) {
     dx = -10
     dy = 0
   }
-  if (keyPressed === UP_KEY && !goingDown) {
+  if (keydown === 'ArrowUp' && !goingDown) {
     dx = 0
     dy = -10
   }
-  if (keyPressed === RIGHT_KEY && !goingLeft) {
+  if (keydown === 'ArrowRight' && !goingLeft) {
     dx = 10
     dy = 0
   }
-  if (keyPressed === DOWN_KEY && !goingUp) {
+  if (keydown === 'ArrowDown' && !goingUp) {
     dx = 0
     dy = 10
   }
