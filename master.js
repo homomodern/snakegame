@@ -1,28 +1,18 @@
-import {drawFood, genFood, hasEatenFood} from './food.js'
+import {drawFood, genFood} from './food.js'
+import {move as moveSnake, drawSnake, hasEatenFood, snake, createSnake} from './snake.js'
+import {changeDirection, dx, dy, initSpeed} from './input.js'
 
 const boardBorder = 'black'
 const boardBackground = 'lightgrey'
-const snakeColor = 'lightgreen'
-const snakeBorder = 'darkblue'
-
-export let snake = []
-
 let score = 0
-// True if changing direction
-// let changing_direction = false;
-let dx // Horizontal velocity
-let dy // Vertical velocity
 
-// Get the canvas element
-const snakeBoard = document.querySelector('#snakeboard')
-// Return a two dimensional drawing context
-const snakeBoardCtx = snakeBoard.getContext('2d')
-
-document.addEventListener('keydown', changeDirection)
+export const snakeBoard = document.querySelector('#snakeboard')
+export const snakeBoardCtx = snakeBoard.getContext('2d')
 
 const startButton = document.querySelector('.start')
-
 startButton.addEventListener('click', startGame)
+
+document.addEventListener('keydown', changeDirection)
 
 clearCanvas()
 
@@ -34,7 +24,7 @@ function main () {
 
   setTimeout(function onTick () {
     clearCanvas()
-    drawFood(snakeBoardCtx)
+    drawFood()
     moveSnake()
     drawSnake()
     tryToGrow()
@@ -44,22 +34,14 @@ function main () {
 }
 
 function startGame () {
-  const snakeDefault = [
-    { x: 200, y: 200 },
-    { x: 190, y: 200 },
-    { x: 180, y: 200 },
-    { x: 170, y: 200 },
-    { x: 160, y: 200 }
-  ]
-  snake = [...snakeDefault]
-  dx = 10
-  dy = 0
   score = 0
   document.querySelector('#score').innerHTML = score
   const menu = document.querySelector('.menu')
   menu.classList.toggle('offscreen')
 
-  genFood(snakeBoard, snake)
+  createSnake()
+  initSpeed()
+  genFood()
   main()
 }
 
@@ -83,7 +65,6 @@ function gameOver() {
   menu.classList.toggle('offscreen')
 }
 
-// draw a border around the canvas
 function clearCanvas () {
   //  Select the colour to fill the drawing
   snakeBoardCtx.fillStyle = boardBackground
@@ -95,71 +76,16 @@ function clearCanvas () {
   snakeBoardCtx.strokeRect(0, 0, snakeBoard.width, snakeBoard.height)
 }
 
-function moveSnake () {
-  // Create the new Snake's head
-  const head = { x: snake[0].x + dx, y: snake[0].y + dy }
-  // Add the new head to the beginning of snake body
-  snake.unshift(head)
-  snake.pop()
-}
-
-function drawSnake () {
-  snake.forEach(drawSnakePart)
-}
-
-function drawSnakePart (snakePart) {
-  // Set the colour of the snake part
-  snakeBoardCtx.fillStyle = snakeColor
-  // Set the border colour of the snake part
-  snakeBoardCtx.strokestyle = snakeBorder
-  // Draw a "filled" rectangle to represent the snake part at the coordinates
-  // the part is located
-  snakeBoardCtx.fillRect(snakePart.x, snakePart.y, 10, 10)
-  // Draw a border around the snake part
-  snakeBoardCtx.strokeRect(snakePart.x, snakePart.y, 10, 10)
-}
-
 function tryToGrow () {
   const tail = {
     x: snake[snake.length -1].x + dx,
     y: snake[snake.length -1].y + dy
   }
-
-  if (hasEatenFood(snake)) {
+  
+  if (hasEatenFood()) {
     snake.push(tail)
-    // Increase score
     score += 10
-    // Display score on screen
     document.getElementById('score').innerHTML = score
-    // Generate new food location
     genFood(snakeBoard, snake)
-  }
-}
-
-function changeDirection (event) {
-  // Prevent the snake from reversing
-
-  // if (changing_direction) return
-  //  changing_direction = true
-  const keydown = event.code
-  const goingUp = dy === -10
-  const goingDown = dy === 10
-  const goingRight = dx === 10
-  const goingLeft = dx === -10
-  if (keydown === 'ArrowLeft' && !goingRight) {
-    dx = -10
-    dy = 0
-  }
-  if (keydown === 'ArrowUp' && !goingDown) {
-    dx = 0
-    dy = -10
-  }
-  if (keydown === 'ArrowRight' && !goingLeft) {
-    dx = 10
-    dy = 0
-  }
-  if (keydown === 'ArrowDown' && !goingUp) {
-    dx = 0
-    dy = 10
   }
 }
