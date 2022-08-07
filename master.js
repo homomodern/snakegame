@@ -51,13 +51,11 @@ function hasGameEnded () {
     if (index === 0) return false // Ignore head
     return part.x === head.x && part.y === head.y
   }
-  if ( snake.some(hitItself) ) return true
-
   const hitLeftWall = snake[0].x < 0
   const hitRightWall = snake[0].x > snakeBoard.width - 10
-  const hitToptWall = snake[0].y < 0
+  const hitTopWall = snake[0].y < 0
   const hitBottomWall = snake[0].y > snakeBoard.height - 10
-  return hitLeftWall || hitRightWall || hitToptWall || hitBottomWall
+  return snake.some(hitItself) || hitLeftWall || hitRightWall || hitTopWall || hitBottomWall
 }
 
 function gameOver() {
